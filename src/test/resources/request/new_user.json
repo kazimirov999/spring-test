@@ -1,0 +1,13 @@
+{
+  "id": null,
+  "name": "John",
+  "email": "john@gmail.com",
+  "roles": [
+    {
+      "id": null,
+      "name": "admin"
+    }
+  ],
+  "comments": [],
+  "orders":[]
+}
