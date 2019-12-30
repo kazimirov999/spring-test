@@ -1,11 +1,13 @@
 package com.udelphi.model;
 
 
+import com.udelphi.model.audit.Auditable;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "categories")
-public class Category extends Auditable<String> {
+public class Category extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -32,4 +34,5 @@ public class Category extends Auditable<String> {
     public void setName(String name) {
         this.name = name;
     }
+
 }

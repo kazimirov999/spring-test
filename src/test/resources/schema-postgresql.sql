@@ -3,16 +3,35 @@ drop  table if exists orders;
 drop  table if exists comments;
 drop  table if exists user_role;
 drop  table if exists roles;
-drop  table if exists users;
 drop  table if exists product_category;
 drop  table if exists products;
 drop  table if exists categories;
+drop  table if exists users;
+
 
 create sequence if not exists hibernate_sequence start with 100;
+create table  users
+(
+    id    serial,
+    name  varchar(255),
+    email varchar(255) unique,
+    password varchar(255) ,
+    created_by varchar(255),
+    creation_date timestamp,
+    last_modified_by varchar(255),
+    last_modified_date timestamp,
+
+    constraint user_pk
+        primary key (id),
+    constraint users_users_created_fk
+        foreign key (created_by) references users (email),
+    constraint users_users_modified_fk
+        foreign key (last_modified_by) references users (email)
+);
 
 create table categories
 (
-    id    SERIAL,
+    id   serial,
     name varchar(255),
     created_by varchar(255),
     creation_date timestamp,
@@ -20,12 +39,16 @@ create table categories
     last_modified_date timestamp,
 
     constraint category_pk
-        primary key (id)
+        primary key (id),
+    constraint categories_users_created_fk
+        foreign key (created_by) references users (email),
+    constraint categories_users_modified_fk
+        foreign key (last_modified_by) references users (email)
 );
 
 create table products
 (
-    id           SERIAL,
+    id          serial,
     name        varchar(255),
     description varchar(255),
     price decimal,
@@ -35,7 +58,11 @@ create table products
     last_modified_date timestamp,
 
     constraint product_pk
-        primary key (id)
+        primary key (id),
+    constraint products_users_created_fk
+        foreign key (created_by) references users (email),
+    constraint products_users_modified_fk
+        foreign key (last_modified_by) references users (email)
 );
 
 create table  product_category
@@ -52,12 +79,16 @@ create table  product_category
     constraint product_category_categories_fk
         foreign key (category_id) references categories (id) on delete cascade,
     constraint product_category_products_fk
-        foreign key (product_id) references products (id) on delete cascade
+        foreign key (product_id) references products (id) on delete cascade,
+    constraint product_category_users_created_fk
+        foreign key (created_by) references users (email),
+    constraint product_category_users_modified_fk
+        foreign key (last_modified_by) references users (email)
 );
 
 create table  roles
 (
-    id    SERIAL,
+    id   serial,
     name varchar(255),
     created_by varchar(255),
     creation_date timestamp,
@@ -65,22 +96,14 @@ create table  roles
     last_modified_date timestamp,
 
     constraint role_pk
-        primary key (id)
+        primary key (id),
+    constraint roles_users_created_fk
+        foreign key (created_by) references users (email),
+    constraint roles_users_modified_fk
+        foreign key (last_modified_by) references users (email)
 );
 
-create table  users
-(
-    id     SERIAL,
-    name  varchar(255),
-    email varchar(255),
-    created_by varchar(255),
-    creation_date timestamp,
-    last_modified_by varchar(255),
-    last_modified_date timestamp,
 
-    constraint user_pk
-        primary key (id)
-);
 
 create table user_role
 (
@@ -96,12 +119,16 @@ create table user_role
     constraint user_role_roles_fk
         foreign key (role_id) references roles (id) on delete  cascade ,
     constraint user_role_users_fk
-        foreign key (user_id) references users (id) on update  cascade
+        foreign key (user_id) references users (id) on update  cascade,
+    constraint user_role_users_created_fk
+        foreign key (created_by) references users (email),
+    constraint user_role_users_modified_fk
+        foreign key (last_modified_by) references users (email)
 );
 
 create table comments
 (
-    id          SERIAL,
+    id         serial,
     text       varchar(255),
     user_id    int,
     product_id int ,
@@ -118,12 +145,16 @@ create table comments
     constraint comments_products_fk
         foreign key (product_id) references products (id),
     constraint comments_comments_fk
-        foreign key (comment_id) references comments (id)
+        foreign key (comment_id) references comments (id),
+    constraint comments_users_created_fk
+        foreign key (created_by) references users (email),
+    constraint comments_users_modified_fk
+        foreign key (last_modified_by) references users (email)
 );
 
-create table  orders
+create table orders
 (
-    id        SERIAL,
+    id        serial,
     order_date date,
     client_id int,
     created_by varchar(255),
@@ -134,12 +165,16 @@ create table  orders
     constraint order_pk
         primary key (id),
     constraint orders_users_fk
-        foreign key (client_id) references users (id)
+        foreign key (client_id) references users (id),
+    constraint orders_users_created_fk
+        foreign key (created_by) references users (email),
+    constraint orders_users_modified_fk
+        foreign key (last_modified_by) references users (email)
 );
 
 create table  order_items
 (
-    id   SERIAL ,
+    id   serial,
     order_id   int,
     product_id int,
     quantity   int not null,
@@ -153,5 +188,9 @@ create table  order_items
     constraint order_items_orders_fk
         foreign key (order_id) references orders (id),
     constraint order_items_products_fk
-        foreign key (product_id) references products (id)
+        foreign key (product_id) references products (id),
+    constraint order_item_users_created_fk
+        foreign key (created_by) references users (email),
+    constraint order_item_users_modified_fk
+        foreign key (last_modified_by) references users (email)
 );

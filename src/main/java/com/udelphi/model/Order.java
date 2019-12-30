@@ -3,12 +3,14 @@ package com.udelphi.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.udelphi.model.audit.Auditable;
+
 import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
 @Table(name = "orders")
-public class Order extends Auditable<String> {
+public class Order extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

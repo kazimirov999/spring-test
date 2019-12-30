@@ -1,21 +1,14 @@
 package com.udelphi.integration;
 
-import io.restassured.http.ContentType;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.test.context.jdbc.Sql;
-
-import javax.sql.DataSource;
-import java.io.File;
-
 import static io.restassured.RestAssured.*;
+import io.restassured.http.ContentType;
 import static org.hamcrest.CoreMatchers.*;
+import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 
+import java.io.File;
 class CategoryIntegrationTest extends IntegrationTest {
 
-    @Autowired
-    DataSource dataSource;
     @Test
     void shouldPersistNewCategory() {
         given()
@@ -30,7 +23,6 @@ class CategoryIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnCategoryById() {
         given()
                 .pathParam("id", "1")
@@ -54,7 +46,6 @@ class CategoryIntegrationTest extends IntegrationTest {
 
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnListCategories() {
 
         when()
@@ -67,7 +58,6 @@ class CategoryIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldDeleteCategoryById() {
         given()
                 .pathParam("id", "1")
@@ -78,7 +68,6 @@ class CategoryIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldUpdateCategoryById() {
         given()
                 .pathParam("id", "1")
@@ -92,6 +81,7 @@ class CategoryIntegrationTest extends IntegrationTest {
 
     @Test
     void shouldThrowExceptionWhenUpdateByWrongId() {
+        //🤷
         given()
                 .pathParam("id", "1000")
                 .contentType(ContentType.JSON)

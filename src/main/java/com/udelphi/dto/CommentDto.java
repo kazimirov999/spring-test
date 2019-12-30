@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(description = "All details about the comment.")
-public class CommentDto {
+public class CommentDto extends AuditableDto{
     @ApiModelProperty(notes = "Database generated comment ID")
     private Integer id;
     @ApiModelProperty(notes = "Comment text")

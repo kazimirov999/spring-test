@@ -2,11 +2,13 @@ package com.udelphi.model;
 
 import java.util.Set;
 
+import com.udelphi.model.audit.Auditable;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "comments")
-public class Comment extends Auditable<String> {
+public class Comment extends Auditable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

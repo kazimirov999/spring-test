@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.sql.Date;
 
 @ApiModel(description = "All details about the order.")
-public class OrderDto {
+public class OrderDto extends AuditableDto{
     @ApiModelProperty(notes = "The database generated order ID")
     private Integer id;
     @ApiModelProperty(notes = "Date when created order")

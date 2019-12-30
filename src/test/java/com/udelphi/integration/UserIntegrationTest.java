@@ -1,14 +1,12 @@
 package com.udelphi.integration;
 
+import static io.restassured.RestAssured.*;
 import io.restassured.http.ContentType;
+import static org.hamcrest.CoreMatchers.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.jdbc.Sql;
 
 import java.io.File;
-
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.CoreMatchers.*;
 
 class UserIntegrationTest extends IntegrationTest {
 
@@ -23,14 +21,13 @@ class UserIntegrationTest extends IntegrationTest {
                 .then()
                 .statusCode(HttpStatus.CREATED.value())
                 .body("id", notNullValue())
-                .body("name", equalTo("John"))
-                .body("email", equalTo("john@gmail.com"))
+                .body("name", equalTo("Victor"))
+                .body("email", equalTo("victor@gmail.com"))
                 .root("roles.find{it.name == '%s'}", withArgs("admin"))
                 .body("id", notNullValue());
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnUserById() {
         given()
                 .pathParam("id", "1")
@@ -42,7 +39,7 @@ class UserIntegrationTest extends IntegrationTest {
                 .body("email", equalTo("john@gmail.com"))
                 .root("roles.find{it.id == %s}", withArgs(1))
                 .body("id", equalTo(1))
-                .body("name", equalTo("client"))
+                .body("name", equalTo("user"))
                 .root("comments.find {it.id == %s}", withArgs(1))
                 .body("text", equalTo("First comment"))
                 .root("orders.find {it.id == %s}", withArgs(1))
@@ -51,7 +48,6 @@ class UserIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnAllProductFromUser() {
         given()
                 .pathParam("userId", "1")
@@ -66,7 +62,6 @@ class UserIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnAllRolesFromUser() {
         given()
                 .pathParam("userId", "1")
@@ -76,12 +71,11 @@ class UserIntegrationTest extends IntegrationTest {
                 .statusCode(HttpStatus.OK.value())
                 .body("size()", is(2))
                 .root("find{it.id == %s} ", withArgs(1))
-                .body("name", equalTo("client"));
+                .body("name", equalTo("user"));
 
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnAllOrdersFromUser() {
         given()
                 .pathParam("userId", "1")
@@ -99,17 +93,16 @@ class UserIntegrationTest extends IntegrationTest {
     void shouldThrowExceptionWhenGetUserThenIdNotFound() {
 
         given()
-                .pathParam("id", "1")
+                .pathParam("id", "1000")
                 .when()
                 .get("/users/{id}")
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value())
-                .body("message", equalTo("Entity not found with id: 1"));
+                .body("message", equalTo("Entity not found with id: 1000"));
     }
 
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnListUsers() {
 
         when()
@@ -129,7 +122,6 @@ class UserIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldDeleteUserById() {
         given()
                 .pathParam("id", "1")
@@ -141,7 +133,6 @@ class UserIntegrationTest extends IntegrationTest {
 
 
     @Test
-    @Sql(TEST_DATA)
     void shouldUpdateUserById() {
 
         given()

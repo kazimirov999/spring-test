@@ -80,6 +80,18 @@ public class UserController {
         return userService.getAllRolesByUserId(id);
     }
 
+    @DeleteMapping("/{id}/roles/{roleId}")
+    @ApiOperation(value = "Delete role from user")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteRoleFromUser(
+            @ApiParam(value = "User Id from which roles objects will delete", required = true)
+            @PathVariable int id,
+            @ApiParam(value = "Role Id from which roles objects will delete", required = true)
+            @PathVariable int roleId) {
+
+        userService.deleteUserRole(id, roleId);
+    }
+
     @GetMapping("/{id}/orders")
     @ApiOperation(value = "View a list of available user order", response = List.class)
     public List<OrderDto> getAllOrdersFromUser(

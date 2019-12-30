@@ -12,12 +12,12 @@ insert into product_category(product_id, category_id) values ( 1, 3 );
 insert into  product_category(product_id, category_id) values ( 2, 1 );
 insert into  product_category(product_id, category_id) values ( 3, 2 );
 
-insert into roles(id, name) values ( 1, 'client' );
+insert into roles(id, name) values ( 1, 'user' );
 insert into roles(id, name) values ( 2, 'admin' );
 insert into roles(id, name) values ( 3, 'user' );
 
-insert into users(id, name, email) values ( 1, 'John', 'john@gmail.com' );
-insert into users(id, name, email) values ( 2, 'Vasya', 'vasya@gmail.com' );
+insert into users(id, name, email, password) values ( 1, 'John', 'john@gmail.com', '$2a$10$Ym8aG/LB87KgyaNMYNsz0eY3g17BJNw0MXmsnHzAlbWHMIcGXH4T2' );
+insert into users(id, name, email, password) values ( 2, 'Vasya', 'vasya@gmail.com', '$2a$10$Ym8aG/LB87KgyaNMYNsz0eY3g17BJNw0MXmsnHzAlbWHMIcGXH4T2' );
 
 insert into user_role(user_id, role_id) values ( 1, 1 );
 insert into user_role(user_id, role_id) values ( 1, 2 );

@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(description = "All details about the category.")
-public class CategoryDto {
+public class CategoryDto extends AuditableDto {
 
     @ApiModelProperty(notes = "Database generated category ID")
     private Integer id;

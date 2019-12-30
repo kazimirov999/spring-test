@@ -1,14 +1,13 @@
 package com.udelphi.integration;
 
+import static io.restassured.RestAssured.*;
 import io.restassured.http.ContentType;
+import static org.hamcrest.CoreMatchers.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.io.File;
-
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.CoreMatchers.*;
 
 class ProductIntegrationTest extends IntegrationTest {
 
@@ -32,7 +31,6 @@ class ProductIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnProductById() {
         given()
                 .pathParam("id", "1")
@@ -69,7 +67,6 @@ class ProductIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnListProductCommentsByProductId() {
         given()
                 .pathParam("productId", "1")
@@ -84,7 +81,6 @@ class ProductIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnListProductOrderItemsByProductId() {
         given()
                 .pathParam("productId", "1")
@@ -100,7 +96,6 @@ class ProductIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnListProductCategoriesItemsByProductId() {
         given()
                 .pathParam("productId", "1")
@@ -114,7 +109,6 @@ class ProductIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnListProducts() {
 
         when()
@@ -143,7 +137,6 @@ class ProductIntegrationTest extends IntegrationTest {
 
 
     @Test
-    @Sql(TEST_DATA)
     void shouldDeleteProductById() {
         given()
                 .pathParam("id", "3")
@@ -155,7 +148,6 @@ class ProductIntegrationTest extends IntegrationTest {
 
 
     @Test
-    @Sql("/test-data.sql")
     void shouldUpdateProductById() {
 
         given()

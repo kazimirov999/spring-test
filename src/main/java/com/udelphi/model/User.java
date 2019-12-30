@@ -1,20 +1,28 @@
 package com.udelphi.model;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
+
+import com.udelphi.model.audit.Auditable;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
-public class User extends Auditable<String> {
+public class User extends Auditable{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
     @Column(name = "name")
     private String name;
+    @NaturalId
     @Column(name = "email")
     private String email;
+
+    @Column(name = "password")
+    private String password;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
@@ -38,6 +46,14 @@ public class User extends Auditable<String> {
 
     public void addRole(Role role) {
         roles.add(role);
+    }
+    public void deleteRole(Integer roleId){
+        Role roleForRemove = roles.stream()
+                .filter(role -> role.getId().equals(roleId))
+                .findFirst()
+                .orElseThrow(()-> new EntityNotFoundException("Role not found with id: " + roleId));
+
+        roles.remove(roleForRemove);
     }
 
     public void addOrder(Order order) {
@@ -91,5 +107,18 @@ public class User extends Auditable<String> {
 
      public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public String toString(){
+        return email;
     }
 }

@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(description = "All details about the order item.")
-public class OrderItemDto {
+public class OrderItemDto  extends AuditableDto{
     @ApiModelProperty(notes = "The database generated order item ID")
     private Integer id;
     @ApiModelProperty(notes = "Product quantity")

@@ -1,14 +1,16 @@
 package com.udelphi.model;
 
+import com.udelphi.model.audit.Auditable;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "roles")
-public class Role extends Auditable<String> {
+public class Role extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
+    private Integer id;
 
     @Column(name = "name")
     private String name;
@@ -16,11 +18,11 @@ public class Role extends Auditable<String> {
     public Role() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

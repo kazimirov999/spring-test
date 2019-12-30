@@ -1,0 +1,13 @@
+version: '3.1'
+services:
+  app:
+    image: huliarenkoruslan/spring-docker:v1.0
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgresdb
+
+  postgresdb:
+    image: huliarenkoruslan/postgres:v1.0
+    ports:
+    - 5432:5432

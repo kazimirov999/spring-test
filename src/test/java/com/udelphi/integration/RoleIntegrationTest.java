@@ -1,14 +1,12 @@
 package com.udelphi.integration;
 
+import static io.restassured.RestAssured.*;
 import io.restassured.http.ContentType;
+import static org.hamcrest.CoreMatchers.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.jdbc.Sql;
 
 import java.io.File;
-
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.CoreMatchers.*;
 
 class RoleIntegrationTest extends IntegrationTest {
 
@@ -27,7 +25,6 @@ class RoleIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnRoleById() {
         given()
                 .pathParam("id", "1")
@@ -35,7 +32,7 @@ class RoleIntegrationTest extends IntegrationTest {
                 .get("/roles/{id}")
                 .then()
                 .statusCode(HttpStatus.OK.value())
-                .body("name", equalTo("client"));
+                .body("name", equalTo("user"));
     }
 
     @Test
@@ -50,7 +47,6 @@ class RoleIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnListRoles() {
 
         when()
@@ -59,12 +55,11 @@ class RoleIntegrationTest extends IntegrationTest {
                 .statusCode(HttpStatus.OK.value())
                 .body("size()", is(3))
                 .root("find{it.id == %s}", withArgs(1))
-                .body("name", equalTo("client"));
+                .body("name", equalTo("user"));
 
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldDeleteRoleById() {
         given()
                 .pathParam("id", "1")
@@ -76,7 +71,6 @@ class RoleIntegrationTest extends IntegrationTest {
 
 
     @Test
-    @Sql(TEST_DATA)
     void shouldUpdateRoleById() {
         given()
                 .pathParam("id", "1")

@@ -5,6 +5,7 @@ import com.udelphi.dto.OrderDto;
 import com.udelphi.dto.ProductDto;
 import com.udelphi.dto.RoleDto;
 import com.udelphi.dto.UserDto;
+import com.udelphi.model.User;
 
 public interface UserService {
     UserDto saveUser(UserDto userDto);
@@ -22,4 +23,8 @@ public interface UserService {
     List<RoleDto> getAllRolesByUserId(int id);
 
     List<OrderDto> getAllOrdersByUserId(int id);
+
+    User getUserByEmail(String email);
+
+    void deleteUserRole(int id, int roleId);
 }

@@ -1,20 +1,17 @@
 package com.udelphi.integration;
 
+import static io.restassured.RestAssured.*;
 import io.restassured.http.ContentType;
+import static org.hamcrest.CoreMatchers.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.jdbc.Sql;
 
 import java.io.File;
-
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.CoreMatchers.*;
 
 class OrderIntegrationTest extends IntegrationTest {
 
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnOrderWithId() {
 
         given()
@@ -29,7 +26,6 @@ class OrderIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnOrderById() {
         given()
                 .pathParam("id", "1")
@@ -58,7 +54,6 @@ class OrderIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnListOrders() {
 
         when()
@@ -77,7 +72,6 @@ class OrderIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnListOrderItemsByOrderId() {
 
         given()
@@ -96,7 +90,6 @@ class OrderIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldDeleteOrderById() {
         given()
                 .pathParam("id", "1")
@@ -107,7 +100,6 @@ class OrderIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldUpdateOrderById() {
         given()
                 .pathParam("id", "1")

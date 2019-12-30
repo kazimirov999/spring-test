@@ -6,13 +6,15 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(description = "All details about the user.")
-public class UserDto {
+public class UserDto  extends  AuditableDto{
     @ApiModelProperty(notes = "The database generated user ID")
     private Integer id;
     @ApiModelProperty(notes = "User name")
     private String name;
     @ApiModelProperty(notes = "User email")
     private String email;
+    @ApiModelProperty(notes = "User password")
+    private String password;
     @ApiModelProperty(notes = "Roles that have a user")
     private Set<RoleDto> roles = new HashSet<>();
     @ApiModelProperty(notes = "Comments that have a user")
@@ -77,4 +79,12 @@ public class UserDto {
         return this;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public UserDto setPassword(String password) {
+        this.password = password;
+        return this;
+    }
 }

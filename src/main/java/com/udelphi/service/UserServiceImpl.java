@@ -13,6 +13,8 @@ import com.udelphi.repository.RoleRepository;
 import com.udelphi.repository.UserRepository;
 import static java.util.stream.Collectors.toList;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,23 +24,27 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final OrderRepository orderRepository;
     private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository, ProductRepository productRepository,
                            RoleRepository roleRepository, OrderRepository orderRepository,
-                           ModelMapper modelMapper) {
+                           ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
 
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.roleRepository = roleRepository;
         this.orderRepository = orderRepository;
         this.modelMapper = modelMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
     public UserDto saveUser(UserDto userDto) {
+        User user = modelMapper.map(userDto, User.class);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        User saveUser = userRepository.save(modelMapper.map(userDto, User.class));
-        return modelMapper.map(saveUser, UserDto.class);
+        User savedUser = userRepository.save(user);
+        return modelMapper.map(savedUser, UserDto.class);
     }
 
     public UserDto getUser(int id) {
@@ -87,6 +93,21 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .map(order -> modelMapper.map(order, OrderDto.class))
                 .collect(toList());
+    }
+
+
+    public User getUserByEmail(String email) {
+        return userRepository.findUserByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("Entity not found with email: " + email));
+    }
+
+    @PreAuthorize("#id == authentication.principal.id")
+    public void deleteUserRole(int id, int roleId) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id));
+
+        user.deleteRole(roleId);
+        userRepository.save(user);
     }
 }
 

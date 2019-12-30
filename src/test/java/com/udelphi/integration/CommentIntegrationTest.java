@@ -1,20 +1,17 @@
 package com.udelphi.integration;
 
+import static io.restassured.RestAssured.*;
 import io.restassured.http.ContentType;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.jdbc.Sql;
 
 import java.io.File;
-
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.CoreMatchers.equalTo;
 
 class CommentIntegrationTest extends IntegrationTest {
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnPersistComment() {
         given()
                 .contentType(ContentType.JSON)
@@ -31,7 +28,6 @@ class CommentIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnCommentById() {
         given()
                 .pathParam("id", "1")
@@ -60,7 +56,6 @@ class CommentIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnListSubCommentsByParentCommentId() {
         given()
                 .pathParam("id", "1")
@@ -76,7 +71,6 @@ class CommentIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnListComments() {
 
         when()
@@ -95,7 +89,6 @@ class CommentIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldDeleteCommentById() {
         given()
                 .pathParam("id", "1")
@@ -107,7 +100,6 @@ class CommentIntegrationTest extends IntegrationTest {
 
 
     @Test
-    @Sql(TEST_DATA)
     void shouldUpdateCommentById() {
         given()
                 .pathParam("id", "1")

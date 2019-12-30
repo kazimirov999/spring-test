@@ -1,23 +1,18 @@
 package com.udelphi.integration;
 
 
+import static io.restassured.RestAssured.*;
 import io.restassured.http.ContentType;
+import static org.hamcrest.CoreMatchers.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.jdbc.Sql;
 
 import java.io.File;
-
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.CoreMatchers.*;
 
 class OrderItemIntegrationTest extends IntegrationTest {
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnOrderItemWithId() {
-
-
         given()
                 .contentType(ContentType.JSON)
                 .body(new File("src/test/resources/request/new_order_item.json"))
@@ -33,7 +28,6 @@ class OrderItemIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnOrderItemById() {
         given()
                 .pathParam("id", 1)
@@ -50,16 +44,15 @@ class OrderItemIntegrationTest extends IntegrationTest {
     @Test
     void shouldThrowExceptionWhenGetOrderItemThenIdNotFound() {
         given()
-                .pathParam("id", 1)
+                .pathParam("id", 1000)
                 .when()
                 .get("/orderItems/{id}")
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value())
-                .body("message", equalTo("Entity not found with id: 1"));
+                .body("message", equalTo("Entity not found with id: 1000"));
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldReturnListCategories() {
 
         when()
@@ -76,7 +69,6 @@ class OrderItemIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldDeleteOrderItemById() {
         given()
                 .pathParam("id", 1)
@@ -89,18 +81,17 @@ class OrderItemIntegrationTest extends IntegrationTest {
     @Test
     void shouldThrowExceptionWhenUpdateOrderItemThenIdNotFound() {
         given()
-                .pathParam("id", 1)
+                .pathParam("id", 1000)
                 .contentType(ContentType.JSON)
                 .body(new File("src/test/resources/request/update_order_item.json"))
                 .when()
                 .put("/orderItems/{id}")
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value())
-                .body("message", equalTo("Entity not found with id: 1"));
+                .body("message", equalTo("Entity not found with id: 1000"));
     }
 
     @Test
-    @Sql(TEST_DATA)
     void shouldUpdateOrderItemById() {
 
 
