@@ -1,0 +1,18 @@
+{
+  "id": null,
+  "text": "new comment",
+  "parent": null,
+  "SubComments": null,
+  "product":null ,
+  "user": {
+    "userId" : null,
+    "name" : "Max1",
+    "email": "max1@gmail.com",
+    "roles": [
+      {
+        "roleId": null,
+        "role" : "admin"
+      }
+    ]
+  }
+}

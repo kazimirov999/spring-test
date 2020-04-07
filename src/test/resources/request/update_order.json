@@ -1,0 +1,12 @@
+{
+  "id": 2,
+  "client":{
+    "comments": [
+    ],
+    "email": "Bogdan@gmail.com",
+    "name": "Bogdan",
+    "orders": [ ],
+    "id": null
+  },
+    "products": []
+}
